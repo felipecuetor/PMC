@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -28,7 +29,11 @@ public class PaginaPrincipal extends JFrame implements ActionListener{
 		this.setSize(500, 150);
 		this.p = p;
 		
-		GridLayout grid = new GridLayout(6, 1);
+		GridLayout grid = new GridLayout(2, 1);
+		GridLayout subg = new GridLayout(4, 1);
+		
+		JPanel sub = new JPanel();
+		sub.setLayout(subg);
 		this.setLayout(grid);
 		
 		txtPregunta = new JTextField();
@@ -43,11 +48,11 @@ public class PaginaPrincipal extends JFrame implements ActionListener{
 		JScrollPane scrollPane = new JScrollPane(txtRespuesta); 
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
-		this.add(new JLabel("Question:"));
-		this.add(txtPregunta);
-		this.add(new JLabel(""));
-		this.add(btnResponder);
-		this.add(new JLabel("Response:"));
+		sub.add(new JLabel("Question:"));
+		sub.add(txtPregunta);
+		sub.add(btnResponder);
+		sub.add(new JLabel("Response:"));
+		this.add(sub);
 		this.add(scrollPane);
 		this.setVisible(true);
 		

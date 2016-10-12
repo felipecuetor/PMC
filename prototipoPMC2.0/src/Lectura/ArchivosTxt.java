@@ -36,16 +36,11 @@ public class ArchivosTxt {
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(parafos)));
 
-		System.out.println(".");
-
+		System.out.println("Iniciando lectura");
 		FileInputStream fi = new FileInputStream(archivo);
-
 		BufferedReader br = new BufferedReader(new InputStreamReader(fi));
-
 		String linea = br.readLine();
 		String parafo = "";
-
-		System.out.println("Iniciando iteracion de lineas");
 		while (linea != null) {
 
 			if (!linea.equals("")) {
@@ -53,7 +48,11 @@ public class ArchivosTxt {
 				linea = br.readLine();
 			} else if (parafo.endsWith(". ")) {
 				parafo = parafo.replaceAll("- ", "");
+				parafo = parafo.replaceAll("— ", "");
 				parafo = parafo.replaceAll("'", " ");
+				parafo = parafo.replaceAll(";", "");
+				parafo = parafo.replaceAll(" :", "");
+				parafo = parafo.replaceAll("\"", "");
 				bw.write(parafo + "\n");
 
 				procesarParafo(parafo);
@@ -104,30 +103,27 @@ public class ArchivosTxt {
 							| actual.isEmpty() | actual.equals(" ")
 							| actual.contains(".")) {
 
-					} else if (actual.contains("VB")) {
+					} else if (!vb && actual.contains("VB")) {
 						verbo = palabraActual;
 						vb = true;
 
 						cont++;
 						palabraActual = palabras[cont];
-					} else if (!vb) {
-						anterior += " "+palabraActual;
-
-						cont++;
-						palabraActual = palabras[cont];
-					} else {
-						posterior += " "+palabraActual;
-
-						cont++;
-						palabraActual = " "+palabras[cont];
 					}
-				} catch (Exception e) {
 
+				} catch (Exception e) {
 				}
+			}
+
+			try {
+				String[] partes = frase.split(verbo);
+				anterior = partes[0];
+				posterior = partes[1];
+			} catch (Exception e) {
 
 			}
 
-			posterior+=". ";
+			posterior += ". ";
 			sujetos.add(anterior);
 			verbos.add(verbo);
 			predicados.add(posterior);
@@ -158,12 +154,13 @@ public class ArchivosTxt {
 		}
 
 		iter = indices.iterator();
-		String resp = split[1] + " is";
+		String resp = "";
 		boolean and = false;
 		System.out.println(indices.size());
 		while (iter.hasNext()) {
 			int actual = (Integer) iter.next();
-			resp += sujetos.get(actual)+verbos.get(actual)+predicados.get(actual);
+			resp += sujetos.get(actual) + verbos.get(actual)
+					+ predicados.get(actual);
 		}
 
 		// Predicado y sujeto
@@ -186,7 +183,8 @@ public class ArchivosTxt {
 			System.out.println(indices.size());
 			while (iter.hasNext()) {
 				int actual = (Integer) iter.next();
-				resp += sujetos.get(actual)+verbos.get(actual)+predicados.get(actual);
+				resp += sujetos.get(actual) + verbos.get(actual)
+						+ predicados.get(actual);
 			}
 		}
 
