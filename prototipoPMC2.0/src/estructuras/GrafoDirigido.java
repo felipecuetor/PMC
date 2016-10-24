@@ -116,10 +116,10 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * @param idV1 id del primer vértice
      * @param idV2 id del segundo vértice
      * @return El arco entre los vértices ingresados por parametros
-     * @throws VerticeNoExisteException si alguno de los vértices ingresados por parametros no existe en el grafo
-     * @throws ArcoNoExisteException si no existe un arco entre esos vértices
+     * @throws Exception si alguno de los vértices ingresados por parametros no existe en el grafo
+     * @throws Exception si no existe un arco entre esos vértices
      */
-    public IArco darArco( K idVerticeOrigen, K idVerticeDestino ) throws VerticeNoExisteException, ArcoNoExisteException
+    public IArco darArco( K idVerticeOrigen, K idVerticeDestino ) throws Exception, Exception
     {
         // Busca el primer vértice y luego busca el arco
         Vertice<K, V, A> vertice = darObjetoVertice( idVerticeOrigen );
@@ -127,12 +127,12 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
         {
             Arco<K, V, A> arco = vertice.darArco( idVerticeDestino );
             if( arco == null )
-                throw new ArcoNoExisteException( "No existe un arco entre los vértices seleccionados", idVerticeOrigen, idVerticeDestino );
+                throw new Exception( "No existe un arco entre los vértices seleccionados");
             else
                 return arco.darInfoArco( );
         }
         else
-            throw new VerticeNoExisteException( "Vértice destino no existe", idVerticeDestino );
+            throw new Exception( "Vértice destino no existe");
     }
 
     /**
@@ -140,16 +140,16 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * @param idV1 id del primer vértice
      * @param idV2 id del segundo vértice
      * @return <code>true</code> si existe un arco entre los vértices ingresado o <code>false</code> en caso contrario.
-     * @throws VerticeNoExisteException si alguno de los vértices ingresados por parametros no existe en el grafo
+     * @throws Exception si alguno de los vértices ingresados por parametros no existe en el grafo
      */
-    public boolean existeArco( K idVerticeOrigen, K idVerticeDestino ) throws VerticeNoExisteException
+    public boolean existeArco( K idVerticeOrigen, K idVerticeDestino ) throws Exception
     {
         // Busca el primer vértice y luego busca el arco
         Vertice<K, V, A> vertice = darObjetoVertice( idVerticeOrigen );
         if( existeVertice( idVerticeDestino ) )
             return vertice.darArco( idVerticeDestino ) != null;
         else
-            throw new VerticeNoExisteException( "Vértice destino no existe", idVerticeDestino );
+            throw new Exception( "Vértice destino no existe");
     }
 
     /**
@@ -191,9 +191,9 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * Devuelve los id de los vértice sucedores a un vértice ingresado por parámetro
      * @param idVertice Identificador del vértice
      * @return Los id de los vértice sucedores a un vértice ingresado por parámetro
-     * @throws VerticeNoExisteException Si el vértice especificado no existe
+     * @throws Exception Si el vértice especificado no existe
      */
-    public Lista<V> darSucesores( K idVertice ) throws VerticeNoExisteException
+    public Lista<V> darSucesores( K idVertice ) throws Exception
     {
         Lista<V> lista = new Lista<V>( );
         for( Arco<K, V, A> a : darObjetoVertice( idVertice ).darSucesores( ) )
@@ -207,9 +207,9 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * Devuelve los id de los vértice predecesores a un vértice ingresado por parámetro
      * @param idVertice Identificador del vértice
      * @return Los id de los vértice predecesores a un vértice ingresado por parámetro
-     * @throws VerticeNoExisteException Si el vértice especificado no existe
+     * @throws Exception Si el vértice especificado no existe
      */
-    public Lista<V> darPredecesores( K idVertice ) throws VerticeNoExisteException
+    public Lista<V> darPredecesores( K idVertice ) throws Exception
     {
         Lista<V> lista = new Lista<V>( );
         for( Arco<K, V, A> a : darObjetoVertice( idVertice ).darPredecesores( ) )
@@ -222,12 +222,12 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
     /**
      * Crea un nuevo vértice en el grafo
      * @param elemento Elemento del vértice
-     * @throws VerticeYaExisteException Si el vértice que se quiere agregar ya existe
+     * @throws Exception Si el vértice que se quiere agregar ya existe
      */
-    public void agregarVertice( V elemento ) throws VerticeYaExisteException
+    public void agregarVertice( V elemento ) throws Exception
     {
         if( existeVertice( elemento.darId( ) ) )
-            throw new VerticeYaExisteException( "Elemento ya existe", elemento.darId( ) );
+            throw new Exception( "Elemento ya existe");
         else
         {
             Vertice<K, V, A> vertice = new Vertice<K, V, A>( elemento );
@@ -238,9 +238,9 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
     /**
      * Elimina el vértice identificado con el Identificador especificado
      * @param idVertice Identificador del vértice
-     * @throws VerticeNoExisteException suando el vértice especificado no existe
+     * @throws Exception suando el vértice especificado no existe
      */
-    public void eliminarVertice( K idVertice ) throws VerticeNoExisteException
+    public void eliminarVertice( K idVertice ) throws Exception
     {
         // Localiza el vértice en el grafo
         Vertice<K, V, A> vertice = darObjetoVertice( idVertice );
@@ -254,7 +254,7 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
             {
                 vert.eliminarArco( vertice.darId( ) );
             }
-            catch( ArcoNoExisteException e )
+            catch( Exception e )
             {
                 // En caso de no existir no hace nada
             }
@@ -268,10 +268,10 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * @param idVerticeOrigen Identificador del vértice desde donde sale el arco
      * @param idVerticeDestino Identificador del vértice hasta donde llega el arco
      * @param infoArco Elemento del arco
-     * @throws VerticeNoExisteException Si alguno de los vértices especificados no existe
+     * @throws Exception Si alguno de los vértices especificados no existe
      * @throws ArcoYaExisteException Si ya existe un arco entre esos dos vértices
      */
-    public void agregarArco( K idVerticeOrigen, K idVerticeDestino, A infoArco ) throws VerticeNoExisteException, ArcoYaExisteException
+    public void agregarArco( K idVerticeOrigen, K idVerticeDestino, A infoArco ) throws Exception, Exception
     {
         // Obtiene los vértices
         Vertice<K, V, A> verticeOrigen = darObjetoVertice( idVerticeOrigen );
@@ -285,10 +285,10 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * Elimina el arco que existe entre dos vértices
      * @param idVerticeOrigen Identificador del vértice desde donde sale el arco
      * @param idVerticeDestino Identificador del vértice hasta donde llega el arco
-     * @throws VerticeNoExisteException Cuando el vértice de salida no existe
-     * @throws ArcoNoExisteException Cuando el arco no existe
+     * @throws Exception Cuando el vértice de salida no existe
+     * @throws Exception Cuando el arco no existe
      */
-    public void eliminarArco( K idVerticeOrigen, K idVerticeDestino ) throws VerticeNoExisteException, ArcoNoExisteException
+    public void eliminarArco( K idVerticeOrigen, K idVerticeDestino ) throws Exception, Exception
     {
         // Obtiene el vértice y elimina el arco
         Vertice<K, V, A> verticeOrigen = darObjetoVertice( idVerticeOrigen );
@@ -320,9 +320,9 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * @param idVerticeOrigen Vértice de origen
      * @param idVerticeDestino Vértice de destino
      * @return <code>true</code> si hay camino entre los dos vértices especificados o <code>false</code> de lo contrario
-     * @throws VerticeNoExisteException Si no existe alguno de los dos vértices dados
+     * @throws Exception Si no existe alguno de los dos vértices dados
      */
-    public boolean hayCamino( K idVerticeOrigen, K idVerticeDestino ) throws VerticeNoExisteException
+    public boolean hayCamino( K idVerticeOrigen, K idVerticeDestino ) throws Exception
     {
         // Borra todas las marcas presentes en el grafo
         reiniciarMarcas( );
@@ -337,9 +337,9 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * @param idVerticeOrigen Vértice en el que inicia el camino
      * @param idVerticeDestino Vértice en el que termina el camino
      * @return El camino más corto entre el par de vértices especificados
-     * @throws VerticeNoExisteException Si alguno de los dos vértices no existe
+     * @throws Exception Si alguno de los dos vértices no existe
      */
-    public Camino<K, V, A> darCaminoMasCorto( K idVerticeOrigen, K idVerticeDestino ) throws VerticeNoExisteException
+    public Camino<K, V, A> darCaminoMasCorto( K idVerticeOrigen, K idVerticeDestino ) throws Exception
     {
         // Borra todas las marcas presentes en el grafo
         reiniciarMarcas( );
@@ -355,9 +355,9 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * @param idVerticeOrigen Vértice en el que inicia el camino
      * @param idVerticeDestino Vértice en el que termina el camino
      * @return El camino más barato entre el par de vértices especificados
-     * @throws VerticeNoExisteException Si alguno de los dos vértices no existe
+     * @throws Exception Si alguno de los dos vértices no existe
      */
-    public Camino<K, V, A> darCaminoMasBarato( K idVerticeOrigen, K idVerticeDestino ) throws VerticeNoExisteException
+    public Camino<K, V, A> darCaminoMasBarato( K idVerticeOrigen, K idVerticeDestino ) throws Exception
     {
         // Borra todas las marcas presentes en el grafo
         reiniciarMarcas( );
@@ -372,9 +372,9 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * Indica si hay un ciclo en el grafo que pase por el vértice especificado
      * @param idVertice El identificador del vértice
      * @return <code>true</code> si existe el ciclo o <code>false</code> en caso contrario
-     * @throws VerticeNoExisteException Si el vértice especificado no existe
+     * @throws Exception Si el vértice especificado no existe
      */
-    public boolean hayCiclo( K idVertice ) throws VerticeNoExisteException
+    public boolean hayCiclo( K idVertice ) throws Exception
     {
         // Borra todas las marcas presentes en el grafo
         reiniciarMarcas( );
@@ -466,9 +466,9 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * Calcula todos los caminos mínimos desde el vértice dado hacia los demás vértices del grafo
      * @param idVertice El identificador del vértice
      * @return Los caminos mínimos desde el vértice especificado hacía los demás nodos
-     * @throws VerticeNoExisteException Si el vértice especificado no existe
+     * @throws Exception Si el vértice especificado no existe
      */
-    public CaminosMinimos<K, V, A> dijkstra( K idVertice ) throws VerticeNoExisteException
+    public CaminosMinimos<K, V, A> dijkstra( K idVertice ) throws Exception
     {
         // Borra todas las marcas presentes en el grafo
         reiniciarMarcas( );
@@ -506,7 +506,7 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
                     if( v != v2 && !hayCamino( v.darId( ), v2.darId( ) ) )
                         return false;
                 }
-                catch( VerticeNoExisteException e )
+                catch( Exception e )
                 {
                     // Esto no deberÃ­a suceder
                 }
@@ -530,93 +530,12 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
                 if( hayCiclo( vertice.darId( ) ) )
                     return false;
             }
-            catch( VerticeNoExisteException e )
+            catch( Exception e )
             {
                 // Esto nunca va a ocurrir
             }
         }
         return true;
-    }
-
-    /**
-     * Indica si en el grafo hay camino de Euler o false en caso contrario
-     * @return true si hay camino de euler o false en caso contrario
-     */
-    public boolean hayCaminoEuler( )
-    {
-        MatrizAdyacencia<K, V, A> matriz = new MatrizAdyacencia<K, V, A>( this );
-
-        // Calcular el número de arcos del grafo
-        int nArcos = darNArcos( );
-
-        // Recorre todos los vértices del grafo buscando un camino de Euler
-        for( Vertice<K, V, A> vertice : vertices.values( ) )
-        {
-            // Borra todas las marcas de la matriz de adyacencia
-            matriz.reiniciarMarcas( );
-            if( vertice.hayCaminoEuler( 0, nArcos, matriz ) )
-                return true;
-        }
-        return false;
-    }
-
-    /**
-     * Retorna el camino de euler
-     * @return El camino de euler o <code>null</code> si éste no existe
-     */
-    public Camino<K, V, A> darCaminoEuler( )
-    {
-        MatrizAdyacencia<K, V, A> matriz = new MatrizAdyacencia<K, V, A>( this );
-
-        // Calcular el número de arcos del grafo
-        int nArcos = darNArcos( );
-
-        // Recorre todos los vértices del grafo buscando un camino de Euler
-        for( Vertice<K, V, A> vertice : vertices.values( ) )
-        {
-            // Borra todas las marcas de la matriz de adyacencia
-            matriz.reiniciarMarcas( );
-            Camino<K, V, A> euler = new Camino<K, V, A>( vertice.darInfoVertice( ) );
-            if( vertice.darCaminoEuler( euler, nArcos, matriz ) )
-                return euler;
-        }
-        return null;
-    }
-
-    /**
-     * Indica si en el grafo hay ciclo de Euler o false en caso contrario
-     * @return true si hay ciclo de euler o false en caso contrario
-     */
-    public boolean hayCicloEuler( )
-    {
-        // Calcular la matriz de adyacencia
-        MatrizAdyacencia<K, V, A> matriz = new MatrizAdyacencia<K, V, A>( this );
-        for( Vertice<K, V, A> vertice : vertices.values( ) )
-        {
-            reiniciarMarcas( );
-            if( vertice.hayCicloEuler( 0, darNArcos( ), matriz, vertice.darId( ) ) )
-                return true;
-        }
-        return false;
-    }
-
-    /**
-     * Retorna el ciclo de euler
-     * @return El ciclo de euler o null si ï¿½ste no existe
-     */
-    public Camino<K,V,A> darCicloEuler( )
-    {
-        // Calcular la matriz de adyacencia
-        MatrizAdyacencia<K, V, A> matriz = new MatrizAdyacencia<K, V, A>( this );
-        for( Vertice<K, V, A> vertice : vertices.values( ) )
-        {
-            reiniciarMarcas( );
-            Camino<K, V, A> euler = new Camino<K, V, A>( vertice.darInfoVertice( ) );
-
-            if( vertice.darCicloEuler( euler, darNArcos( ), matriz ) )
-                return euler;
-        }
-        return null;
     }
 
     /**
@@ -649,7 +568,7 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
             {
                 itera.agregar( v );
             }
-            catch( IteradorException e )
+            catch( Exception e )
             {
                 // Nunca debe ocurrir esta excepciï¿½n
             }
@@ -702,11 +621,7 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
                             }
                         }
                     }
-                    catch( ColaVaciaException e )
-                    {
-                        // Esta excepciï¿½n nunca deberï¿½a ocurrir
-                    }
-                    catch( IteradorException e )
+                    catch( Exception e )
                     {
                         // Esta excepciï¿½n nunca deberï¿½a ocurrir
                     }
@@ -743,7 +658,7 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
                     menorExcentricidad = excen;
                 }
             }
-            catch( VerticeNoExisteException e )
+            catch( Exception e )
             {
                 // Esto no deberÃ­a suceder
             }
@@ -756,9 +671,9 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * Calcula la excentricidad de un vértice del grafo
      * @param idVertice Id del vertice
      * @return La excentricidad del vértice ingresado por parámetro, o Grafo.INFINITO en caso no poder alcanzar alguno de los vértices del grafo.
-     * @throws VerticeNoExisteException Si el vértice buscado no existe
+     * @throws Exception Si el vértice buscado no existe
      */
-    public int darExcentricidad( K idVertice ) throws VerticeNoExisteException
+    public int darExcentricidad( K idVertice ) throws Exception
     {
         CaminosMinimos<K, V, A> cm = dijkstra( idVertice );
 
@@ -782,8 +697,9 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
 
     /**
      * El peso de un grafo es la suma de los pesos de todos sus arcos
+     * @throws Exception 
      */
-    public int darPeso( )
+    public int darPeso( ) throws Exception
     {
         int peso = 0;
         Lista<A> arcos = darArcos( );
@@ -798,9 +714,9 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * Retorna el árbol parcial de recubrimiento del grafo que parte del vértice dado
      * @param idVertice El identificador del vértice
      * @return El árbol de recubrimiento parcial del grafo que parte del vértice dado
-     * @throws VerticeNoExisteException Si el vertice buscado no existe;
+     * @throws Exception Si el vertice buscado no existe;
      */
-    public GrafoDirigido<K, V, A> darArbolParcialRecubrimiento( K idVertice ) throws VerticeNoExisteException
+    public GrafoDirigido<K, V, A> darArbolParcialRecubrimiento( K idVertice ) throws Exception
     {
         Vertice<K, V, A> vertice = darObjetoVertice( idVertice );
         reiniciarMarcas( );
@@ -810,55 +726,6 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
         return arbolPR;
     }
 
-    /**
-     * Retorna la clausura transitiva del árbol
-     * @return La clausura transitiva del árbol
-     */
-    public GrafoDirigido<K, V, ArcoCT> darClausuraTransitiva( )
-    {
-        // Crear e inicializar el grafo con el que se va a representar la
-        // clausura transitiva
-        GrafoDirigido<K, V, ArcoCT> cTransitiva = new GrafoDirigido<K, V, ArcoCT>( );
-        for( Vertice<K, V, A> vertice : vertices.values( ) )
-        {
-            try
-            {
-                cTransitiva.agregarVertice( vertice.darInfoVertice( ) );
-            }
-            catch( VerticeYaExisteException e )
-            {
-                // Esto no deberÃ­a suceder
-            }
-        }
-
-        // Calcular los arcos que componen la clausura transitiva
-        for( Vertice<K, V, A> vertice : vertices.values( ) )
-        {
-            try
-            {
-                CaminosMinimos<K, V, A> cMinimos = dijkstra( vertice.darId( ) );
-                for( Vertice<K, V, A> destino : vertices.values( ) )
-                {
-                    int costoMinimo = cMinimos.darCostoCamino( destino );
-                    if( !destino.darId( ).equals( vertice.darId( ) ) && costoMinimo != INFINITO )
-                    {
-                        ArcoCT arc = new ArcoCT( costoMinimo );
-                        cTransitiva.agregarArco( vertice.darId( ), destino.darId( ), arc );
-                    }
-                }
-            }
-            catch( VerticeNoExisteException e )
-            {
-                // Esto no deberÃ­a suceder
-            }
-            catch( ArcoYaExisteException e )
-            {
-                // Esto no deberÃ­a suceder
-            }
-        }
-
-        return cTransitiva;
-    }
 
     /**
      * Cuenta el número de subgrafos que son conexos
@@ -885,14 +752,14 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * Devuelve el vértice identificado con el identificador especificado
      * @param idVertice Identificador del vértice
      * @return Vértice buscado
-     * @throws VerticeNoExisteException Excepción generada cuando el vértice buscado no existe en el grafo
+     * @throws Exception Excepción generada cuando el vértice buscado no existe en el grafo
      */
-    private Vertice<K, V, A> darObjetoVertice( K idVertice ) throws VerticeNoExisteException
+    private Vertice<K, V, A> darObjetoVertice( K idVertice ) throws Exception
     {
         Vertice<K, V, A> vertice = vertices.get( idVertice );
         if( vertice == null )
         {
-            throw new VerticeNoExisteException( "El vértice buscado no existe en el grafo", idVertice );
+            throw new Exception( "El vértice buscado no existe en el grafo");
         }
         return vertice;
     }
@@ -901,9 +768,9 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
      * Devuelve el vértice identificado con el identificador especificado
      * @param idVertice Identificador del vértice
      * @return Vértice buscado
-     * @throws VerticeNoExisteException Excepción generada cuando el vértice buscado no existe en el grafo
+     * @throws Exception Excepción generada cuando el vértice buscado no existe en el grafo
      */
-    public V darVertice( K idVertice ) throws VerticeNoExisteException
+    public V darVertice( K idVertice ) throws Exception
     {
         return darObjetoVertice( idVertice ).darInfoVertice( );
     }

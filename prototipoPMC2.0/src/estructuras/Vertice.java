@@ -154,14 +154,14 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
     /**
      * Elimina un arco del vértice
      * @param idDestino Identificador del vértice destino del arco que se quiere eliminar
-     * @throws ArcoNoExisteException Excepción generada cuando el arco no existe
+     * @throws Exception Excepción generada cuando el arco no existe
      */
-    public void eliminarArco( K idDestino ) throws ArcoNoExisteException
+    public void eliminarArco( K idDestino ) throws Exception
     {
         Arco<K, V, A> arco = darArco( idDestino );
         if( arco == null )
         {
-            throw new ArcoNoExisteException( "El arco no existe", darId( ), idDestino );
+            throw new Exception( "El arco no existe");
         }
         sucesores.remove( arco );
         arco.darVerticeDestino( ).eliminarArcoPredecesor( arco );
@@ -179,14 +179,14 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
     /**
      * Agrega un arco al vértice
      * @param arco Arco a agregar al vértice
-     * @throws ArcoYaExisteException Excepción generada cuando ya hay un arco hacia el mismo vértice
+     * @throws Exception Excepción generada cuando ya hay un arco hacia el mismo vértice
      */
-    public void agregarArco( Arco<K, V, A> arco ) throws ArcoYaExisteException
+    public void agregarArco( Arco<K, V, A> arco ) throws Exception
     {
         K idDestino = arco.darVerticeDestino( ).darId( );
         if( esSucesor( idDestino ) )
         {
-            throw new ArcoYaExisteException( "El arco ya existe", darId( ), idDestino );
+            throw new Exception( "El arco ya existe");
         }
         sucesores.add( arco );
         arco.darVerticeDestino( ).agregarArcoPredecesor( arco );
@@ -195,9 +195,9 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
     /**
      * Agrega un arco al vértice
      * @param arco Arco a agregar al vértice
-     * @throws ArcoYaExisteException Excepción generada cuando ya hay un arco hacia el mismo vértice
+     * @throws Exception Excepción generada cuando ya hay un arco hacia el mismo vértice
      */
-    private void agregarArcoPredecesor( Arco<K, V, A> arco ) throws ArcoYaExisteException
+    private void agregarArcoPredecesor( Arco<K, V, A> arco ) throws Exception
     {
         predecesores.add( arco );
     }
@@ -395,44 +395,6 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
         }
     }
 
-    /**
-     * Indica si hay un camino de Euler que pasa por el vértice actual, teniendo en cuenta que en dicho camino ya se ha pasado
-     *  por un cierto número de arcos (longActual) y que debe pasar por todos lo arcos del grafo (nArcos)
-     * @param longitudActual Longitud actual del camino
-     * @param nArcos Número de arcos en el grafo
-     * @param matriz Matriz de adyacencia utilizada para marcar arcos
-     * @return <code>true</code> si el camino existe, <code>false</code> en caso contrario
-     */
-    public boolean hayCaminoEuler( int longitudActual, int nArcos, MatrizAdyacencia<K, V, A> matriz )
-    {
-        if( longitudActual == nArcos )
-            return true;
-        else
-        {
-            for( Arco<K, V, A> arco : darSucesores( ) )
-            {
-                try
-                {
-                    if( !matriz.marcado( darId( ), arco.darVerticeDestino( ).darId( ) ) )
-                    {
-                        matriz.marcarArco( darId( ), arco.darVerticeDestino( ).darId( ) );
-                        if( arco.darVerticeDestino( ).hayCaminoEuler( longitudActual + 1, nArcos, matriz ) )
-                            return true;
-                        matriz.desmarcarArco( darId( ), arco.darVerticeDestino( ).darId( ) );
-                    }
-                }
-                catch( ArcoNoExisteException e )
-                {
-                    // Esto no debería suceder
-                }
-                catch( VerticeNoExisteException e )
-                {
-                    // Esto no debería suceder
-                }
-            }
-            return false;
-        }
-    }
 
     /**
      * Devuelve el camino de Hamilton
@@ -465,45 +427,6 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
         return false;
     }
 
-    /**
-     * Devuelve un camino de Euler.
-     * @param camino Variable en la que se construirá el camino
-     * @param nArcos Número de arcos en el grafo
-     * @param matriz Matriz de adyacencia utilizada para marcar arcos.
-     * @return <code>true</code> si existe un camino de Euler o <code>false</code> de lo contrario
-     */
-    public boolean darCaminoEuler( Camino<K, V, A> camino, int nArcos, MatrizAdyacencia<K, V, A> matriz )
-    {
-        if( camino.darLongitud( ) == nArcos )
-            return true;
-        else
-        {
-            for( Arco<K, V, A> arco : darSucesores( ) )
-            {
-                try
-                {
-                    if( !matriz.marcado( darId( ), arco.darVerticeDestino( ).darId( ) ) )
-                    {
-                        matriz.marcarArco( darId( ), arco.darVerticeDestino( ).darId( ) );
-                        camino.agregarArcoFinal( arco.darVerticeDestino( ).darInfoVertice( ), arco.darInfoArco( ) );
-                        if( arco.darVerticeDestino( ).darCaminoEuler( camino, nArcos, matriz ) )
-                            return true;
-                        matriz.desmarcarArco( darId( ), arco.darVerticeDestino( ).darId( ) );
-                        camino.eliminarUltimoArco( );
-                    }
-                }
-                catch( ArcoNoExisteException e )
-                {
-                    // Esto no deberÃ­a suceder
-                }
-                catch( VerticeNoExisteException e )
-                {
-                    // Esto no deberÃ­a suceder
-                }
-            }
-            return false;
-        }
-    }
 
     /**
      * Indica si hay un ciclo de Hamilton que pasa por el vértice actual, teniendo en cuenta que en dicho camino ya se ha pasado por un<br>
@@ -534,48 +457,6 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
         }
     }
 
-    /**
-     * Indica si hay un ciclo de Euler que pasa por el vértice actual, teniendo en cuenta que en dicho camino ya se ha pasado por un cierto<br>
-     *  número de arcos (longActual) y que debe pasar por todos lo arcos del grafo (nArcos)
-     * @param longActual Número de arcos recorridos hasta el momento
-     * @param nArcos Número de arcos en el grafo
-     * @param matriz Matriz de adyacencia utilizada para marcar los arcos
-     * @param origenCiclo Id del vertice del cual partio el ciclo
-     * @return <code>true</code> si se encuentre un ciclo de Euler o <code>false</code> en caso contrario
-     */
-    public boolean hayCicloEuler( int longActual, int nArcos, MatrizAdyacencia<K, V, A> matriz, K origenCiclo )
-    {
-        try
-        {
-            if( longActual + 1 == nArcos && esSucesor( origenCiclo ) && !matriz.marcado( darId( ), origenCiclo ) )
-                return true;
-            else
-            {
-                for( Arco<K, V, A> arco : darSucesores( ) )
-                {
-
-                    if( !matriz.marcado( darId( ), arco.darVerticeDestino( ).darId( ) ) )
-                    {
-                        matriz.marcarArco( darId( ), arco.darVerticeDestino( ).darId( ) );
-                        if( arco.darVerticeDestino( ).hayCicloEuler( longActual + 1, nArcos, matriz, origenCiclo ) )
-                            return true;
-                        matriz.desmarcarArco( darId( ), arco.darVerticeDestino( ).darId( ) );
-                    }
-
-                }
-                return false;
-            }
-        }
-        catch( ArcoNoExisteException e )
-        {
-            // Esto no deberia suceder
-        }
-        catch( VerticeNoExisteException e )
-        {
-            // Esto no deberia suceder
-        }
-        return false;
-    }
 
     /**
      * Retorna un ciclo hamiltoniano que pase por este vértice
@@ -614,58 +495,6 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
     }
 
     /**
-     * Retorna un ciclo de euler que pasa por este vértice
-     * @param euler Camino formado hasta ahora
-     * @param nArcos Número de arcos en el grafo
-     * @param matriz Matriz de adyacencia utilizada para marcar arcos
-     * @return <code>true</code> si existe el ciclo de euler o <code>false</code> en caso contrario
-     */
-    public boolean darCicloEuler( Camino<K, V, A> euler, int nArcos, MatrizAdyacencia<K, V, A> matriz )
-    {
-        // Obtener el primer nodo del camino
-        K origenCiclo = euler.darOrigen( ).darId( );
-
-        // Calcular la longitud actual de camino
-        int longActual = euler.darLongitud( );
-
-        try
-        {
-            if( longActual + 1 == nArcos && esSucesor( origenCiclo ) && !matriz.marcado( darId( ), origenCiclo ) )
-            {
-                euler.agregarArcoFinal( darArco( origenCiclo ).darVerticeDestino( ).darInfoVertice( ), darArco( origenCiclo ).darInfoArco( ) );
-                return true;
-            }
-            else
-            {
-                for( Arco<K, V, A> arco : darSucesores( ) )
-                {
-
-                    if( !matriz.marcado( darId( ), arco.darVerticeDestino( ).darId( ) ) )
-                    {
-                        matriz.marcarArco( darId( ), arco.darVerticeDestino( ).darId( ) );
-                        euler.agregarArcoFinal( arco.darVerticeDestino( ).darInfoVertice( ), arco.darInfoArco( ) );
-                        if( arco.darVerticeDestino( ).darCicloEuler( euler, nArcos, matriz ) )
-                            return true;
-                        matriz.desmarcarArco( darId( ), arco.darVerticeDestino( ).darId( ) );
-                        euler.eliminarUltimoArco( );
-                    }
-
-                }
-                return false;
-            }
-        }
-        catch( ArcoNoExisteException e )
-        {
-            // Esto no deberia suceder
-        }
-        catch( VerticeNoExisteException e )
-        {
-            // Esto no deberia suceder
-        }
-        return false;
-    }
-
-    /**
      * Incluye en el cálculo de caminos mínimos el vértice actual
      * @param minimos El objeto sobre el que se está haciendo el calculo
      * @return El objeto en el que se están calculando los caminos mínimos
@@ -691,7 +520,7 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
         {
             itera.agregar( this );
         }
-        catch( IteradorException e )
+        catch( Exception e )
         {
             // Nunca deberï¿½a ocurrir esta excepciï¿½n
         }
@@ -721,13 +550,9 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
                     arbolPR.agregarArco( darId( ), sucesor.darVerticeDestino( ).darId( ), sucesor.darInfoArco( ) );
                     sucesor.darVerticeDestino( ).darArbolParcialRecubrimiento( arbolPR );
                 }
-                catch( VerticeNoExisteException e )
+                catch( Exception e )
                 {
                     // Esto no deberia suceder
-                }
-                catch( ArcoYaExisteException e )
-                {
-                    // Esto no deberÃ­a suceder
                 }
         }
     }

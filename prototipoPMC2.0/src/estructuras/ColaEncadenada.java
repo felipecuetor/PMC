@@ -82,10 +82,10 @@ public class ColaEncadenada<T> implements Serializable
      * @return El primer elemento de la cola. Diferente de null<br>
      * @throws ColaVaciaException Si la cola no tiene elementos<br>
      */
-    public T tomarElemento( ) throws ColaVaciaException
+    public T tomarElemento( ) throws Exception
     {
         if( primero == null )
-            throw new ColaVaciaException( "No hay elementos en la cola" );
+            throw new Exception( "No hay elementos en la cola" );
         else
         {
             NodoCola<T> p = primero;

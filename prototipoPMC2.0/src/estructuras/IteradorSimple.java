@@ -132,14 +132,14 @@ public class IteradorSimple<T> implements Iterador<T>
      * <b>post: </b> Se adicionó el elemento especificado en la última posición del iterador, y sigPosLibre= sigPosLibre+1.
      * @throws IteradorException Si el iterador no tiene capacidad para más elementos
      */
-    public void agregar( T elem ) throws IteradorException
+    public void agregar( T elem ) throws Exception
     {
         if( sigPosLibre <= elems.length - 1 )
         {
             elems[ sigPosLibre++ ] = elem;
         }
         else
-            throw new IteradorException( "Límite del iterador alcanzado" );
+            throw new Exception( "Límite del iterador alcanzado" );
     }
 
     /**
@@ -147,10 +147,10 @@ public class IteradorSimple<T> implements Iterador<T>
      * <b>post: </b> Se adicionó el elemento especificado en la primera posición del iterador, y sigPosLibre= sigPosLibre+1. <br>
      * @throws IteradorException Si el iterador no tiene capacidad para más elementos
      */
-    public void insertar( T elem ) throws IteradorException
+    public void insertar( T elem ) throws Exception
     {
         if( sigPosLibre >= elems.length )
-            throw new IteradorException( "Límite del iterador alcanzado" );
+            throw new Exception( "Límite del iterador alcanzado" );
         // Abre espacio para el nuevo elemento
         for( int i = sigPosLibre; i > 0; i-- )
         {

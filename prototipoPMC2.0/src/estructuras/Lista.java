@@ -89,12 +89,13 @@ public class Lista<T> implements Serializable
      * <b>post</b>: Se retornó el elemento en la posición especificada.<br>
      * @param pos Posición del elemento.<br>
      * @return Elemento en la posición especificada. Puede ser null en caso que no exista un elemento en la posición dada.<br>
+     * @throws Exception 
      * @throws IndiceFueraDeRangoException Lanzada cuando la posición es menor a cero o mayor al tamaño de la lista menos uno.<br>
      */
-    public T darElemento( int pos )
+    public T darElemento( int pos ) throws Exception
     {
         if( pos < 0 || pos > numElems )
-            throw new IndiceFueraDeRangoException( pos );
+            throw new Exception( pos+"" );
         return elems[ pos ];
     }
 
@@ -123,14 +124,15 @@ public class Lista<T> implements Serializable
      * Si con la adición se excede la capacidad de la lista, la nueva capacidad de la lista es elem.length+DELTA. <br>
      * @param elem Elemento a insertar<br>
      * @param pos Posición en la que se va a insertar el elemento<br>
+     * @throws Exception 
      * @throws IndiceFueraDeRangoException Lanzada cuando la posición donde se quiere insertar el elemento es negativa o más grande que el tamaño de la lista menos uno.<br>
      */
     @SuppressWarnings("unchecked")
-    public void insertar( T elem, int pos )
+    public void insertar( T elem, int pos ) throws Exception
     {
         if( pos < 0 || pos > numElems )
         {
-            throw new IndiceFueraDeRangoException( pos );
+            throw new Exception( pos+"" );
         }
         // Verifica si hay que aumentar el tamaño de la representación
         if( numElems == elems.length )
@@ -155,13 +157,14 @@ public class Lista<T> implements Serializable
      * <b>post: </b> Se eliminó el elemento en la posición especificada desplazando todos los elementos que se encuentran desde pos+1 una posición hacia atrás. <br>
      * @param pos Posición del elemento a eliminar.
      * @return Elemento eliminado. En el caso de que no se elimine ningún elemento se retorna null.
+     * @throws Exception 
      * @throws IndiceFueraDeRangoException Lanzada cuando la posición donde se quiere eliminar el elemento es negativa o más grande que el tamaño de la lista menos uno.<br>
      */
-    public T eliminar( int pos )
+    public T eliminar( int pos ) throws Exception
     {
         if( pos < 0 || pos >= numElems )
         {
-            throw new IndiceFueraDeRangoException( pos );
+            throw new Exception( pos+"" );
         }
         // Saca el elemento a eliminar para ser retornado.
         T resp = elems[ pos ];
@@ -184,8 +187,9 @@ public class Lista<T> implements Serializable
      * Si el elemento no existe se retorna null.<br>
      * @param elem Elemento a eliminar. Diferente de null<br>
      * @return Elemento eliminado o null si el elemento no existe.<br>
+     * @throws Exception 
      */
-    public T eliminar( T elem )
+    public T eliminar( T elem ) throws Exception
     {
         int pos = 0;
         // Se busca la posición del elemento a eliminar
@@ -229,13 +233,14 @@ public class Lista<T> implements Serializable
      * <b>post:</b> El nuevo elemento en la posición pos es elem.<br>
      * @param elem Elemento a asignar<br>
      * @param pos Posición en la que se va a realizar la asignación<br>
+     * @throws Exception 
      * @throws IndiceFueraDeRangoException Lanzada cuando la posición donde se quiere asignar el elemento es menor a cero o igual a la cantidad de elementos de la lista.
      *         También es lanzada cuando la lista no tiene posiciones.<br>
      */
-    public void asignar( T elem, int pos )
+    public void asignar( T elem, int pos ) throws Exception
     {
         if( pos < 0 || pos > numElems || numElems == 0 )
-            throw new IndiceFueraDeRangoException( pos );
+            throw new Exception( pos+"" );
         elems[ pos ] = elem;
     }
 
@@ -253,7 +258,7 @@ public class Lista<T> implements Serializable
             {
                 respuesta.agregar( elems[ i ] );
             }
-            catch( IteradorException e )
+            catch( Exception e )
             {
                 // Nunca debería ocurrir esta excepción
             }
