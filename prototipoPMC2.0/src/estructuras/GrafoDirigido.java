@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Representa un grafo dirigido
@@ -67,6 +68,30 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
         vertices = new HashMap<K, Vertice<K, V, A>>( );
     }
 
+    //------------------------------------------------------------------
+    // Metodos NLP
+    // -----------------------------------------------------------------
+    /**
+     * Busca los vertices que contengan un String en su identificador
+     * @param buscado Texto buscado en los vertices
+     * @return verticesResp los vertices que contienen el texto
+     */
+    public Lista bucarTextoEnVertices(String buscado)
+    {
+    	Lista verticesResp = new Lista();
+    	
+    	Iterator iter = vertices.values().iterator();
+    	
+    	while(iter.hasNext()){
+    		V elem = (V) iter.next();
+    		
+    		if(buscado.contains(elem.toString()))
+    			verticesResp.agregar(elem);
+    	}
+    	
+    	return verticesResp;
+    }
+    
     // -----------------------------------------------------------------
     // Métodos
     // -----------------------------------------------------------------
@@ -425,8 +450,9 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
     /**
      * Retorna el camino hamiltoniano que hay en el grafo
      * @param El camino hamiltoniano que hay en el grafo. En caso de que no haya se retorna null
+     * @throws Exception 
      */
-    public Camino<K, V, A> darCaminoHamilton( )
+    public Camino<K, V, A> darCaminoHamilton( ) throws Exception
     {
         // Recorre todos los vértices del grafo buscando un camino de Hamilton
         for( Vertice<K, V, A> vertice : vertices.values( ) )
@@ -443,8 +469,9 @@ public class GrafoDirigido<K, V extends IVertice<K>, A extends IArco> implements
     /**
      * Retorna el ciclo hamiltoniano que hay en el grafo
      * @return El ciclo de Hamilton que hay en el grafo. En caso de que no haya se retorna null
+     * @throws Exception 
      */
-    public Camino<K, V, A> darCicloHamilton( )
+    public Camino<K, V, A> darCicloHamilton( ) throws Exception
     {
         // Como se trata de un ciclo no es necesario buscar en todos los nodos.
         // Con que se encuentre un solo nodo del que no pueda partir el ciclo

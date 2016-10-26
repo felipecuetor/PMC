@@ -266,8 +266,9 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
      * Devuelve el camino mas corto al vértice especificado
      * @param destino Vértice destino
      * @return Camino mas corto hacia el vértice especificado
+     * @throws Exception 
      */
-    public Camino<K, V, A> darCaminoMasCorto( Vertice<K, V, A> destino )
+    public Camino<K, V, A> darCaminoMasCorto( Vertice<K, V, A> destino ) throws Exception
     {
         if( infoVertice.darId( ).equals( destino.darId( ) ) )
             return new Camino<K, V, A>( this.infoVertice );
@@ -309,8 +310,9 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
      * Devuelve el camino mas barato hacia el vértice especificado
      * @param destino Vértice destino
      * @return Camino mas barato al vértice especificado
+     * @throws Exception 
      */
-    public Camino<K, V, A> darCaminoMasBarato( Vertice<K, V, A> destino )
+    public Camino<K, V, A> darCaminoMasBarato( Vertice<K, V, A> destino ) throws Exception
     {
         if( infoVertice.darId( ).equals( destino.darId( ) ) )
             return new Camino<K, V, A>( this.infoVertice );
@@ -401,8 +403,9 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
      * @param hamilton Camino de Hamilton
      * @param ordenGrafo Orden del grafo
      * @return True si existe, False si no
+     * @throws Exception 
      */
-    public boolean darCaminoHamilton( Camino<K, V, A> hamilton, int ordenGrafo )
+    public boolean darCaminoHamilton( Camino<K, V, A> hamilton, int ordenGrafo ) throws Exception
     {
         if( hamilton.darLongitud( ) + 1 == ordenGrafo )
         {
@@ -463,8 +466,9 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
      * @param hamilton Camino formado hasta ahora
      * @param ordenGrafo Orden del grafo
      * @return <code>true</code> Si existe un ciclo hamiltoniano o <code>false</code> en caso contrario
+     * @throws Exception 
      */
-    public boolean darCicloHamilton( Camino<K, V, A> hamilton, int ordenGrafo )
+    public boolean darCicloHamilton( Camino<K, V, A> hamilton, int ordenGrafo ) throws Exception
     {
         // Obtener el primer nodo del camino
         V origenCamino = hamilton.darOrigen( );
@@ -578,6 +582,11 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
                 predecesor.darVerticeOrigen( ).marcarAdyacentes( );
             }
         }
+    }
+    
+    public String toString()
+    {
+    	return infoVertice.toString();
     }
 
 }

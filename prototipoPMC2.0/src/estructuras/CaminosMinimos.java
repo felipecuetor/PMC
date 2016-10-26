@@ -180,7 +180,7 @@ public class CaminosMinimos<K, V extends IVertice<K>, A extends IArco>
                 nodo = nodo.darPredecesor( );
             }
         }
-        catch( IteradorException e )
+        catch( Exception e )
         {
             // Nunca debería aparecer esta excepción
             e.printStackTrace( );

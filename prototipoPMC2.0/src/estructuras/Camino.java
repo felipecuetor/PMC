@@ -82,8 +82,9 @@ public class Camino<K, V extends IVertice<K>, A extends IArco>
      * Agrega un arco al comienzo del camino.
      * @param nuevoOrigen Nuevo origen del camino
      * @param arco Arco que va del nuevo origen al antiguo origen del camino
+     * @throws Exception 
      */
-    public void agregarArcoComienzo( V nuevoOrigen, A arco )
+    public void agregarArcoComienzo( V nuevoOrigen, A arco ) throws Exception
     {
         arcos.insertar( arco, 0 );
         vertices.insertar( origen, 0 );
@@ -94,8 +95,9 @@ public class Camino<K, V extends IVertice<K>, A extends IArco>
     /**
      * Concatena todos los arcos del camino especificado al final del camino
      * @param camino Camino a concatenar
+     * @throws Exception 
      */
-    public void concatenar( Camino<K, V, A> camino )
+    public void concatenar( Camino<K, V, A> camino ) throws Exception
     {
         // Agregar los arcos y vertices del camino a concatenar ignorando el origen del camino ingresado por parámetro
         for( int i = 0; i < camino.arcos.darLongitud( ); i++ )
@@ -104,8 +106,9 @@ public class Camino<K, V extends IVertice<K>, A extends IArco>
 
     /**
      * Elimina el último arco
+     * @throws Exception 
      */
-    public void eliminarUltimoArco( )
+    public void eliminarUltimoArco( ) throws Exception
     {
         if( arcos.darLongitud( ) >= 1 )
         {
@@ -147,8 +150,9 @@ public class Camino<K, V extends IVertice<K>, A extends IArco>
     /**
      * Devuelve los vértices por los cuales pasa el camino
      * @return Iterador sobre los vértices
+     * @throws Exception 
      */
-    public Iterador<V> darSecuenciaVertices( )
+    public Iterador<V> darSecuenciaVertices( ) throws Exception
     {
         // Crear una lista auxiliar y agregarle el origen
         Lista<V> aux = new Lista<V>( );

@@ -25,12 +25,13 @@ public class PaginaPrincipal extends JFrame implements ActionListener{
 
 	public PaginaPrincipal(ArchivosTxt p)
 	{
+		this.setTitle("The origin of species Q&A");;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(500, 150);
+		this.setSize(500, 500);
 		this.p = p;
 		
 		GridLayout grid = new GridLayout(2, 1);
-		GridLayout subg = new GridLayout(4, 1);
+		GridLayout subg = new GridLayout(6, 1);
 		
 		JPanel sub = new JPanel();
 		sub.setLayout(subg);
@@ -51,6 +52,8 @@ public class PaginaPrincipal extends JFrame implements ActionListener{
 		sub.add(new JLabel("Question:"));
 		sub.add(txtPregunta);
 		sub.add(btnResponder);
+		sub.add(new JLabel(""));
+		sub.add(new JLabel(""));
 		sub.add(new JLabel("Response:"));
 		this.add(sub);
 		this.add(scrollPane);
