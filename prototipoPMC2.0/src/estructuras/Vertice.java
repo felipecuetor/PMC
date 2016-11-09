@@ -50,6 +50,26 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
      * Marca del nodo
      */
     private boolean marcado;
+    
+    
+    //Metodos Propios
+    public V darSucesorPorArco(String busc)
+    {
+    	Iterator<Arco<K, V, A>> iter = sucesores.iterator();
+    	
+    	Arco actual = null;
+    	
+    	while(iter.hasNext())
+    	{
+    		actual = (Arco) iter.next();
+    		
+    		if(actual.toString().contains(busc))
+    		{
+    			return (V) actual.darVerticeDestino().darInfoVertice();
+    		}
+    	}
+    	return null;
+    }
 
     // -----------------------------------------------------------------
     // Constructores
@@ -219,6 +239,9 @@ public class Vertice<K, V extends IVertice<K>, A extends IArco>
     {
         return darArco( idDestino ) != null;
     }
+    
+    
+    
 
     /**
      * Devuelve el número de sucesores del vértice
